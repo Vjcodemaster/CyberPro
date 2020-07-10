@@ -9,6 +9,6 @@
     <dimen name="x_small_text">@dimen/_9ssp</dimen>
     <dimen name="small_text">@dimen/_10ssp</dimen>
     <dimen name="primary_text">@dimen/_12ssp</dimen>
-    <dimen name="secondary_text">@dimen/_14ssp</dimen>
+    <dimen name="medium_text">@dimen/_14ssp</dimen>
     <dimen name="large_text">@dimen/_16ssp</dimen>
 </resources>
