@@ -1,55 +1,66 @@
-package com.arcticfox.cyberpro;
+package com.arcticfox.cyberpro.ui.home.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.arcticfox.cyberpro.R;
+import com.arcticfox.cyberpro.databinding.ActivityHomeBinding;
+import com.arcticfox.cyberpro.ui.home.viewmodels.HomeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private DrawerLayout mDrawerLayout;
-    private NavigationView navigationView;
+    //private Toolbar toolbar;
+    //private DrawerLayout mDrawerLayout;
+    //private NavigationView navigationView;
+    private HomeViewModel mHomeVM;
+    private ActivityHomeBinding mActivityHomeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_home);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //setContentView(R.layout.activity_home);
+        mActivityHomeBinding = DataBindingUtil.setContentView(HomeActivity.this,R.layout.activity_home);
+        //mHomeVM = ViewModelProviders.of(HomeActivity.this).get(HomeViewModel.class);
+        mHomeVM = new ViewModelProvider(this).get(HomeViewModel.class);
+        mActivityHomeBinding.setHomeVM(mHomeVM);
+        mActivityHomeBinding.setLifecycleOwner(HomeActivity.this);
 
-        initializeViews();
+        mHomeVM.setPageTitle(getResources().getString(R.string.app_name));
+        //mActivityHomeBinding.toolbar.tvTitle.setText("abcdef");
+        //initializeViews();
         setupToolbar();
         setupDrawerContent();
     }
 
-    private void initializeViews(){
+    /*private void initializeViews(){
         toolbar = findViewById(R.id.toolbar);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-    }
+    }*/
 
     private void setupToolbar(){
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mActivityHomeBinding.toolbar.toolbar);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar,
+                this, mActivityHomeBinding.drawerLayout, mActivityHomeBinding.toolbar.toolbar,
                 R.string.menu_home, R.string.menu_home
         );
 
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mActivityHomeBinding.drawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -58,11 +69,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(){
-            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mActivityHomeBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                    mDrawerLayout.closeDrawers();
+                    mActivityHomeBinding.drawerLayout.closeDrawers();
                     return true;
                 }
             });
@@ -73,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //handles open and close of home button of actionbar/toolbar
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                mActivityHomeBinding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
