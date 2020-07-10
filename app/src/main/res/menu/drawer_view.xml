@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/group_home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_nav"
+            android:title="@string/title_home"/>
+    </group>
+
+    <group
+        android:id="@+id/group_event"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_expenses"
+            android:icon="@drawable/expenses"
+            android:title="@string/expenses" />
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/notes_ideas_nav"
+            android:title="@string/notes"/>
+
+        <item
+            android:id="@+id/nav_reminder"
+            android:icon="@drawable/reminder_nav"
+            android:title="@string/reminder"/>
+
+        <item
+            android:id="@+id/nav_trip_planner"
+            android:icon="@drawable/trip_planner"
+            android:title="@string/trip_planner"/>
+    </group>
+    <group
+        android:id="@+id/group_store"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_safe_store"
+            android:icon="@drawable/safe_store_nav"
+            android:title="@string/safe_store"/>
+
+        <item
+            android:id="@+id/nav_automate"
+            android:icon="@drawable/automate"
+            android:title="@string/automate"/>
+        <item
+            android:id="@+id/nav_scanner"
+            android:icon="@drawable/scanner"
+            android:title="@string/scanner"/>
+    </group>
+
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/settings_nav"
+            android:title="@string/settings"/>
+    </group>
+
+    <!--<item android:title="Sub items">
+        <menu>
+            <item
+                android:title="Sub item 1" />
+            <item
+                android:title="Sub item 2" />
+        </menu>
+    </item>-->
+
+</menu>

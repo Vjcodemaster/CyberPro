@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="CyberTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:fontFamily">@font/radio_stars</item>
+        <item name="fontFamily">@font/radio_stars</item>
+    </style>
+
+    <!-- Changes made to android:listDivider changes the color of navigation drawer's line -->
+    <style name="NavigationViewTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:listDivider">@color/greyNavigationLine</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+</resources>

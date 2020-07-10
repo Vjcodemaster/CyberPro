@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Cyber Pro</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+    
+    <!-- navigation drawer menu-->
+    <string name="expenses">Expenses</string>
+    <string name="safe_store">Safe Store</string>
+    <string name="reminder">Reminder</string>
+    <string name="notes">Notes/Ideas</string>
+    <string name="trip_planner">Trip Planner</string>
+    <string name="scanner">Scanner</string>
+    <string name="automate">Automate</string>
+    <string name="settings">Settings</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#33424f</color><!-- #24394c, #1F303F -->
+    <color name="colorPrimaryDark">#1D2D3C</color> <!-- #1D2D3C-->
+    <color name="colorAccent">#ef5542</color><!--#FF5722 - #ff6b3d, #69F0AE, #33e3b0, #17eaea, #15eded - #18FFFF, #ef5542-->
+
+    <color name="primaryText">#f7f8ff</color> <!-- #f7f8ff, #f4f6ff-->
+    <color name="secondaryText">#BDBDBD</color> <!-- #949ca6-->
+
+    <color name="greyNavigationLine">#454F5B</color>
+    <color name="colorNextToWhite">#f9fcff</color>
+</resources>
