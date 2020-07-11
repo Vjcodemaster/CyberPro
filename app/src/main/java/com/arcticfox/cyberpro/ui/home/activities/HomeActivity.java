@@ -9,10 +9,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.arcticfox.cyberpro.R;
 import com.arcticfox.cyberpro.databinding.ActivityHomeBinding;
+import com.arcticfox.cyberpro.ui.expenses.fragments.ExpensesFragment;
 import com.arcticfox.cyberpro.ui.home.viewmodels.HomeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     //private NavigationView navigationView;
     private HomeViewModel mHomeVM;
     private ActivityHomeBinding mActivityHomeBinding;
+    private boolean isFragmentInBackStack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //setContentView(R.layout.activity_home);
-        mActivityHomeBinding = DataBindingUtil.setContentView(HomeActivity.this,R.layout.activity_home);
+        mActivityHomeBinding = DataBindingUtil.setContentView(HomeActivity.this, R.layout.activity_home);
         //mHomeVM = ViewModelProviders.of(HomeActivity.this).get(HomeViewModel.class);
         mHomeVM = new ViewModelProvider(this).get(HomeViewModel.class);
         mActivityHomeBinding.setHomeVM(mHomeVM);
@@ -49,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
     }*/
 
-    private void setupToolbar(){
+    private void setupToolbar() {
         setSupportActionBar(mActivityHomeBinding.toolbar.toolbar);
 
         if (getSupportActionBar() != null)
@@ -68,15 +72,39 @@ public class HomeActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    private void setupDrawerContent(){
+    private void setupDrawerContent() {
         mActivityHomeBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                    mActivityHomeBinding.drawerLayout.closeDrawers();
-                    return true;
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                String sTag = null;
+                Fragment newFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.nav_expenses:
+                        sTag = getResources().getString(R.string.expenses);
+                        mHomeVM.setPageTitle(sTag);
+                        newFragment = getSupportFragmentManager().findFragmentByTag(sTag);
+                        if (newFragment == null) {
+                            newFragment = ExpensesFragment.Companion.newInstance();
+                            isFragmentInBackStack = false;
+                        } else
+                            isFragmentInBackStack = true;
+                        break;
+                    default:
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        break;
                 }
-            });
+                if (isFragmentInBackStack) {
+                    getSupportFragmentManager().beginTransaction().show(newFragment).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContent, ExpensesFragment.Companion.newInstance(), sTag)
+                            .addToBackStack(sTag)
+                            .commit();
+                }
+                mActivityHomeBinding.drawerLayout.closeDrawers();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -88,5 +116,22 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mActivityHomeBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mActivityHomeBinding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            int nBackStackCount = getSupportFragmentManager().getBackStackEntryCount();
+            if (nBackStackCount == 1) {
+                mHomeVM.setPageTitle(getResources().getString(R.string.app_name));
+            }
+            if(nBackStackCount > 1){
+                String sTag = getSupportFragmentManager().getFragments().get(nBackStackCount - 1).getTag();
+                mHomeVM.setPageTitle(sTag);
+            }
+            super.onBackPressed();
+        }
     }
 }
