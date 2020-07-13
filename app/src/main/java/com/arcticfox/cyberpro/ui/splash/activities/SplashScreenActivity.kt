@@ -18,6 +18,6 @@ class SplashScreenActivity : AppCompatActivity() {
             finish()*/
             startActivity(Intent(this@SplashScreenActivity,HomeActivity::class.java))
             finish()
-        }, 1500)
+        }, 1000)
     }
 }

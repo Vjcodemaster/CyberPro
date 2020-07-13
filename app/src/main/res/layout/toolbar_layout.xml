@@ -23,17 +23,30 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:alpha="0.85"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textAppearance="@style/CyberTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:alpha="0.7"
+            android:gravity="center"
             android:text="@{toolbarTitle}"
-            tools:text="@string/app_name"
+            android:visibility="gone"
             android:textColor="@android:color/white"
             android:textSize="@dimen/primary_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
+            tools:text="@string/app_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!--<LinearLayout
         android:layout_width="wrap_content"

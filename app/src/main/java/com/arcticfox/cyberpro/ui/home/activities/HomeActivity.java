@@ -1,12 +1,19 @@
 package com.arcticfox.cyberpro.ui.home.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -40,7 +47,14 @@ public class HomeActivity extends AppCompatActivity {
         mActivityHomeBinding.setHomeVM(mHomeVM);
         mActivityHomeBinding.setLifecycleOwner(HomeActivity.this);
 
-        mHomeVM.setPageTitle(getResources().getString(R.string.app_name));
+        /*SpannableStringBuilder longDescription = new SpannableStringBuilder();
+        longDescription.append(getResources().getString(R.string.app_name));
+        int start = longDescription.length();
+        longDescription.append(getResources().getString(R.string.menu_home));
+        //longDescription.setSpan(new ForegroundColorSpan(0xFFCC5500), start, longDescription.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        longDescription.setSpan(CustomTypefaceSpan(ResourcesCompat.getFont(this, R.font.radio_stars)), start, longDescription.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+
+        mHomeVM.setPageTitle(getResources().getString(R.string.menu_home));
         //mActivityHomeBinding.toolbar.tvTitle.setText("abcdef");
         //initializeViews();
         setupToolbar();
@@ -78,28 +92,43 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 String sTag = null;
                 Fragment newFragment = null;
+                final Handler mUIHandler = new Handler();
                 switch (item.getItemId()) {
                     case R.id.nav_expenses:
                         sTag = getResources().getString(R.string.expenses);
-                        mHomeVM.setPageTitle(sTag);
                         newFragment = getSupportFragmentManager().findFragmentByTag(sTag);
                         if (newFragment == null) {
                             newFragment = ExpensesFragment.Companion.newInstance();
                             isFragmentInBackStack = false;
                         } else
                             isFragmentInBackStack = true;
+                        mHomeVM.setPageTitle(sTag);
                         break;
                     default:
-                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        mUIHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                mHomeVM.setPageTitle(getResources().getString(R.string.menu_home));
+                                mActivityHomeBinding.toolbar.tvTitle.setVisibility(View.GONE);
+                                mActivityHomeBinding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+                            }
+                        }, 0);
                         break;
                 }
                 if (isFragmentInBackStack) {
-                    getSupportFragmentManager().beginTransaction().show(newFragment).commit();
+                    if (newFragment != null) {
+                        getSupportFragmentManager().beginTransaction().show(newFragment).commit();
+                        mActivityHomeBinding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+                        mActivityHomeBinding.toolbar.tvTitle.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.flContent, ExpensesFragment.Companion.newInstance(), sTag)
-                            .addToBackStack(sTag)
+                            .add(R.id.flContent, ExpensesFragment.Companion.newInstance(), sTag)
+                            .addToBackStack(null)
                             .commit();
+                    mActivityHomeBinding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+                    mActivityHomeBinding.toolbar.tvTitle.setVisibility(View.VISIBLE);
                 }
                 mActivityHomeBinding.drawerLayout.closeDrawers();
                 return true;
@@ -123,7 +152,11 @@ public class HomeActivity extends AppCompatActivity {
         if (mActivityHomeBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             mActivityHomeBinding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            int nBackStackCount = getSupportFragmentManager().getBackStackEntryCount();
+            mActivityHomeBinding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+            mActivityHomeBinding.toolbar.tvTitle.setVisibility(View.GONE);
+            mHomeVM.setPageTitle(getResources().getString(R.string.menu_home));
+            super.onBackPressed();
+            /*int nBackStackCount = getSupportFragmentManager().getBackStackEntryCount();
             if (nBackStackCount == 1) {
                 mHomeVM.setPageTitle(getResources().getString(R.string.app_name));
             }
@@ -131,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
                 String sTag = getSupportFragmentManager().getFragments().get(nBackStackCount - 1).getTag();
                 mHomeVM.setPageTitle(sTag);
             }
-            super.onBackPressed();
+            super.onBackPressed();*/
         }
     }
 }
